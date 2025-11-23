@@ -1,0 +1,471 @@
+{
+	"info": {
+		"_postman_id": "a6577378-85a8-4ed7-a66d-88b22758b531",
+		"name": "UniversitySystem",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "43256453"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Add admin",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "pass",
+								"username": "mina@gmail.com"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Admin\",\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/users/admins"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "getAllAdmins",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "pass",
+								"username": "mina@gmail.com"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/users/admins"
+					},
+					"response": []
+				},
+				{
+					"name": "Add lecturer",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "pass",
+								"username": "mina@gmail.com"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"lecturer\",\r\n    \"email\": \"lecturer@gmail.com\",\r\n    \"password\": \"lecturer\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/users/lecturers"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Student",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "pass",
+								"username": "mina@gmail.com"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"student\",\r\n    \"email\": \"student@gmail.com\",\r\n    \"password\": \"student\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/users/students"
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllLecturers",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "pass",
+								"username": "mina@gmail.com"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/users/lecturers"
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllStudents",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "pass",
+								"username": "mina@gmail.com"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/users/students"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Courses",
+			"item": [
+				{
+					"name": "Create Course",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "pass",
+								"username": "mina@gmail.com"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Introduction to Quantum\",\r\n  \"startDate\": \"2026-07-01\",\r\n  \"endDate\": \"2026-09-30\",\r\n  \"courseStartRegistirationDate\": \"2026-01-15\",\r\n  \"courseEndRegistirationDate\": \"2026-02-28\",\r\n  \"lecturerId\": 3,\r\n  \"isActive\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/courses"
+					},
+					"response": []
+				},
+				{
+					"name": "GetCourse",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/courses/1"
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllCourses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/courses"
+					},
+					"response": []
+				},
+				{
+					"name": "Getrequired-for",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/courses/1/required-for"
+					},
+					"response": []
+				},
+				{
+					"name": "GetPrerequisistes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/courses/1/prerequisites"
+					},
+					"response": []
+				},
+				{
+					"name": "add prerequisite",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "pass",
+								"username": "mina@gmail.com"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "2",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/courses/1/prerequisites"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Lecturerer courses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/courses/by-lecturer/5"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteCourse",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "pass",
+								"username": "mina@gmail.com"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8080/api/courses/7"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "LectureTime",
+			"item": [
+				{
+					"name": "Add LectureTime",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "pass",
+								"username": "mina@gmail.com"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"courseId\": 1,\r\n  \"day\": \"Monday\",\r\n  \"time\": \"14:30:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/lecture-times"
+					},
+					"response": []
+				},
+				{
+					"name": "getLectureTimeById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/lecture-times/1"
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllLectureTimes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/lecture-times"
+					},
+					"response": []
+				},
+				{
+					"name": "GetLecturesByDay",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/lecture-times/day/MONDAY"
+					},
+					"response": []
+				},
+				{
+					"name": "getCourseLectureTimes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/lecture-times/course/3"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteLectureTime",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8080/api/lecture-times/1"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Enrollments",
+			"item": [
+				{
+					"name": "GetStudentEnrollments",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "pass",
+								"username": "mina@gmail.com"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/enrollments/student/4"
+					},
+					"response": []
+				},
+				{
+					"name": "getCourseEnrollments",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "pass",
+								"username": "mina@gmail.com"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/enrollments/course/3"
+					},
+					"response": []
+				},
+				{
+					"name": "getEnrollmentById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/enrollments/1"
+					},
+					"response": []
+				},
+				{
+					"name": "createEnrollment",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "pass",
+								"username": "mina@gmail.com"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"studentId\": 4,\r\n  \"courseId\": 2,\r\n  \"semester\": 20261\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/enrollments"
+					},
+					"response": []
+				},
+				{
+					"name": "SetGrade",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "pass",
+								"username": "mina@gmail.com"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"studentId\": 6,\r\n    \"courseId\": 3,\r\n    \"grade\": \"A\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/enrollments/grade"
+					},
+					"response": []
+				},
+				{
+					"name": "Change Status",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "pass",
+								"username": "mina@gmail.com"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"studentId\": 4,\r\n    \"courseId\": 2,\r\n    \"status\": \"InProgress\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/enrollments/status"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
