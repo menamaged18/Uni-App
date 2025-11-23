@@ -4,8 +4,6 @@ import {
   EnrollmentResponse, 
   StudentEnrollmentsResponse, 
   EnrollmentRequest, 
-  EnrollmentChangeStatusReq, 
-  EnrollmentChangeGradeReq, 
   EnrollmentEditRequest, 
   GradeChangeReq,
   StatusChangeReq
@@ -51,6 +49,18 @@ export const getEnrollmentById = createAsyncThunk('enrollments/getById', async (
     const response = await axios.get<EnrollmentResponse>(`${baseUrl}/enrollments/${id}`);
     return response.data;
   } catch (err: any) { return rejectWithValue(err.response?.data); }
+});
+
+export const courseEnrollmentsNumber = createAsyncThunk('enrollments/CourseEnrollments', async (courseId: number, {rejectWithValue}) => {
+  try{
+    const response = await axios.get<number>(`${baseUrl}/enrollments/${courseId}/count`);
+    return response.data;
+  } catch (error) {
+    if (error instanceof Error) {
+      return rejectWithValue(error.message);     
+    }
+    return rejectWithValue(error); 
+  }
 });
 
 // POST /api/enrollments
@@ -127,16 +137,22 @@ const enrollmentSlice = createSlice({
         state.studentEnrollments = action.payload;
       })
       .addCase(getCourseEnrollments.fulfilled, (state, action) => {
+        state.loading = false;
         state.courseEnrollments = action.payload;
       })
       .addCase(getEnrollmentById.fulfilled, (state, action) => {
+        state.loading = false;
         state.currentEnrollment = action.payload;
       })
       .addCase(deleteEnrollment.fulfilled, (state, action) => {
+        state.loading = false;
         state.courseEnrollments = state.courseEnrollments.filter(e => e.id !== action.payload);
         // Note: StudentEnrollmentsResponse usually doesn't have the ID of the enrollment easily accessible for filtering 
         // depending on how the backend maps it, but assuming 'id' matches:
         state.studentEnrollments = state.studentEnrollments.filter(e => e.id !== action.payload);
+      })
+      .addCase(courseEnrollmentsNumber.fulfilled, (state) => {
+        state.loading = false;
       })
       // add matchers for failing and loading status 
       .addMatcher( 

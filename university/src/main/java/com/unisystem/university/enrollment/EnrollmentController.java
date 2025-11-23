@@ -158,4 +158,12 @@ public class EnrollmentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @GetMapping("/{courseId}/count")
+    public Long getEnrolledStudentCount(@PathVariable Long courseId) {
+        Course course = courseService.getCourseById(courseId);
+
+        return enrollmentService.cousreEnrollments(course);
+    }
+
 }

@@ -203,4 +203,9 @@ public class EnrollmentService {
         }
         return enrollmentRepo.save(enroll);
     }
+
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN') or hasRole('LECTURER')")
+    public Long cousreEnrollments(Course course){
+        return enrollmentRepo.countByCourse(course);
+    }
 }
