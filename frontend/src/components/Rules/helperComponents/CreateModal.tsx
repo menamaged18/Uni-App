@@ -1,5 +1,6 @@
-import { CourseResponse, User } from "@/types";
+import { CourseResponse, DateValues, User } from "@/types";
 import { useState } from "react";
+import DateInputGroup from "./DateInputGroup";
 
 interface CreateModalProps {
   type: string;
@@ -18,9 +19,48 @@ export default function CreateModal({ type, onClose, onSubmit, courses = [], lec
     prerequisiteCoursesIds: []
   });
 
+  const validateForm = (): boolean => {
+    const errors: string[] = [];
+    
+    if (!dateValues.startDate) errors.push('Course start date is required');
+    if (!dateValues.endDate) errors.push('Course end date is required');
+    if (!dateValues.regStartDate) errors.push('Registration start date is required');
+    if (!dateValues.regEndDate) errors.push('Registration end date is required');
+    
+    if (dateValues.startDate && dateValues.endDate && dateValues.startDate > dateValues.endDate) {
+      errors.push('Course end date must be after start date');
+    }
+    
+    if (dateValues.regStartDate && dateValues.regEndDate && dateValues.regStartDate > dateValues.regEndDate) {
+      errors.push('Registration end date must be after start date');
+    }
+    
+    // if (dateValues.regEndDate && dateValues.startDate && dateValues.regEndDate > dateValues.startDate) {
+    //   errors.push('Registration must end before course starts');
+    // }
+    
+    if (errors.length > 0) {
+      alert(errors.join('\n'));
+      return false;
+    }
+    
+    return true;
+  };
+
+  const [dateValues, setDateValues] = useState({
+    startDate: "",
+    endDate: "",
+    regStartDate: "",
+    regEndDate: "",
+  });
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
+    if (!validateForm()) {
+      return; // Stop submission if validation fails
+    }
+
     let submitData = { ...formData };
     
     if (type === 'courses') {
@@ -28,11 +68,20 @@ export default function CreateModal({ type, onClose, onSubmit, courses = [], lec
         ...submitData,
         lecturerId: parseInt(submitData.lecturerId) || null,
         prerequisiteCoursesIds: submitData.prerequisiteCoursesIds.map((id: string) => parseInt(id)),
+        startDate: dateValues.startDate,
+        endDate: dateValues.endDate,
+        courseStartRegistirationDate: dateValues.regStartDate,
+        courseEndRegistirationDate: dateValues.regEndDate,
         isActive: true
       };
     }
     
     onSubmit(submitData);
+  };
+
+  const handleDateChange = (dates: DateValues) => {
+    setDateValues(dates);
+    // console.log('Date values from child:', dates);
   };
 
   return (
@@ -125,6 +174,9 @@ export default function CreateModal({ type, onClose, onSubmit, courses = [], lec
                 </select>
                 <p className="text-sm text-gray-500 mt-1">Hold Ctrl to select multiple</p>
               </div>
+
+              <DateInputGroup onDatesChange={handleDateChange} />
+
             </>
           )}
 

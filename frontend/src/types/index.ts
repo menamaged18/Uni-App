@@ -161,3 +161,12 @@ export interface EnrollmentEditRequest {
   status: CourseStatus;
   grade: Grade;
 }
+
+
+
+export interface DateValues {
+  startDate: string;
+  endDate: string;
+  regStartDate: string;
+  regEndDate: string;
+}

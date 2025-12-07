@@ -1,4 +1,3 @@
-version: "3.8"
 
 services:
   db:
@@ -30,19 +29,54 @@ services:
       # useful for logs
       SPRING_PROFILES_ACTIVE: prod
 
+  # for production 
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #   volumes:
+  #     - ./frontend:/app # LOCAL CODE → CONTAINER (Hot reload!)
+  #     - /app/node_modules
+  #   command: npm run dev
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     NEXT_PUBLIC_API_URL: http://backend:8080
+  #   depends_on:
+  #     - backend
+
+  # for development 
   frontend:
     build:
       context: ./frontend
-    depends_on:
-      - backend
+      dockerfile: Dockerfile.dev
+    working_dir: /app
+    command: npm run dev
     ports:
       - "3000:3000"
     environment:
-      # for client-side calls (must be NEXT_PUBLIC_ to be exposed in browser)
-      NEXT_PUBLIC_API_URL: http://localhost:8080
-    # if Next uses server side rendering to call backend via container DNS:
-    # environment:
-    #   NEXT_PUBLIC_API_URL: http://backend:8080
+      - NEXT_PUBLIC_API_URL=http://backend:8080
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+      - FAST_REFRESH=true
+    depends_on:
+      - backend
+    develop:
+      watch:
+        # Rebuild if dependencies change
+        - action: sync+restart
+          path: ./frontend/package.json
+          target: /app/package.json
+        # Sync source files for hot reload (Node.js/Next.js)
+        - action: sync
+          path: ./frontend
+          target: /app
+          ignore:
+            - node_modules/
+            - .next/
+            - .git/
+
+
+
 
 volumes:
   db_data:
