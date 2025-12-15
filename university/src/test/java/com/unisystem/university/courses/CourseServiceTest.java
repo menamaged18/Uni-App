@@ -280,4 +280,67 @@ public class CourseServiceTest {
         verify(mockCourseRepository, times(1)).deleteById(COURSE_ID);
     }
 
+    // --- Course Editing Tests ---
+    
+    @Test
+    public void editCourse_Success_PartialUpdate() {
+        // Arrange
+        String newName = "Java Advanced";
+        LocalDate newEndDate = END_DATE.plusMonths(1);
+        
+        when(mockCourseRepository.findById(COURSE_ID)).thenReturn(Optional.of(mockCourse));
+        // Mock save operation, which returns the updated course
+        when(mockCourseRepository.save(any(Course.class))).thenAnswer(invocation -> {
+            Course savedCourse = invocation.getArgument(0);
+            savedCourse.setName(newName); 
+            savedCourse.setEndDate(newEndDate);
+            return savedCourse;
+        });
+
+        // Act
+        Course updatedCourse = courseService.editCourse(
+            COURSE_ID, newName, null, newEndDate, null, null, null, null
+        );
+
+        // Assert
+        assertNotNull(updatedCourse);
+        assertEquals(COURSE_ID, updatedCourse.getId());
+        assertEquals(newName, updatedCourse.getName()); // Should be updated
+        assertEquals(newEndDate, updatedCourse.getEndDate()); // Should be updated
+        assertEquals(mockCourse.getStartDate(), updatedCourse.getStartDate()); // remain the same
+        assertNotNull(updatedCourse.getUpdatedAt()); // Should be set by the service
+        verify(mockCourseRepository).findById(COURSE_ID);
+        verify(mockCourseRepository).save(any(Course.class));
+    }
+    
+    @Test
+    public void editCourse_Success_FullUpdate() {
+        // Arrange
+        String newName = "Updated Java Course";
+        User newLecturer = new User();
+        newLecturer.setId(2L);
+        newLecturer.setRole(Role.LECTURER);
+        
+        when(mockCourseRepository.findById(COURSE_ID)).thenReturn(Optional.of(mockCourse));
+        // Mock save operation
+        when(mockCourseRepository.save(any(Course.class))).thenAnswer(invocation -> {
+            Course savedCourse = invocation.getArgument(0);
+            savedCourse.setName(newName); 
+            savedCourse.setLecturer(newLecturer);
+            return savedCourse;
+        });
+
+        // Act
+        Course updatedCourse = courseService.editCourse(
+            COURSE_ID, newName, START_DATE, END_DATE, REG_START_DATE, REG_END_DATE, newLecturer, false
+        );
+
+        // Assert
+        assertNotNull(updatedCourse);
+        assertEquals(newName, updatedCourse.getName());
+        assertEquals(newLecturer.getId(), updatedCourse.getLecturer().getId());
+        assertEquals(false, updatedCourse.getIsActive());
+        verify(mockCourseRepository).save(any(Course.class));
+    }
+
 }

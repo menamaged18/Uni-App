@@ -19,8 +19,8 @@ public class CourseService {
         this.courseRepo = _courseRepo;
     }
 
-    // helper function to validate course Creation
-    private void courseCreationValidation(User lecturer, String courseName, LocalDate courseStartRegistrationDate, 
+    // helper function to validate course details
+    private void courseValidation(User lecturer, String courseName, LocalDate courseStartRegistrationDate, 
         LocalDate courseEndRegistrationDate, LocalDate startDate, LocalDate endDate){
         // Basic Argument Check
         if (lecturer == null || courseName == null || courseName.trim().isEmpty()) {
@@ -53,7 +53,7 @@ public class CourseService {
     public Course createCourse(String courseName, LocalDate startDate, LocalDate endDate, 
         LocalDate courseStartRegistrationDate, LocalDate courseEndRegistrationDate, User lecturer, Boolean isActive){
         
-        courseCreationValidation(lecturer, courseName, courseStartRegistrationDate, 
+        courseValidation(lecturer, courseName, courseStartRegistrationDate, 
                     courseEndRegistrationDate, startDate, endDate);
                     
         Course newCourse = new Course(courseName, startDate, endDate, courseStartRegistrationDate, 
@@ -66,7 +66,7 @@ public class CourseService {
             LocalDate courseStartRegistrationDate, LocalDate courseEndRegistrationDate,
             User lecturer, Boolean isActive, Set<Course> preReqs) {
 
-        courseCreationValidation(lecturer, courseName, courseStartRegistrationDate, 
+        courseValidation(lecturer, courseName, courseStartRegistrationDate, 
                     courseEndRegistrationDate, startDate, endDate);
         // Create and Persist
         Course newCourse = createCourse(courseName, startDate, endDate,
@@ -121,6 +121,10 @@ public class CourseService {
         LocalDate courseStartRegistirationDate, LocalDate courseEndRegistirationDate, User lecturer, Boolean isActive){
         
         Course course = getCourseById(courseId);
+        
+        // validate course details before edit
+        courseValidation(course.getLecturer(), courseName, courseStartRegistirationDate, 
+                        courseEndRegistirationDate, startDate, endDate);
         
         if (courseName != null) {
             course.setName(courseName);
