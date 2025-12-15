@@ -3,6 +3,7 @@ package com.unisystem.university.courses;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -14,6 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.List;
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -227,4 +229,55 @@ public class CourseServiceTest {
         assertEquals(COURSE_NAME, actualCourses.get(0).getName());
         verify(mockCourseRepository).findAll();
     }
+
+    @Test
+    public void getAllCourses_Failed(){
+        // arrange
+        when(mockCourseRepository.findAll()).thenReturn(Collections.emptyList());
+        
+        // act 
+        List<Course> courses = courseService.getAllCourses();
+        
+        // Assert
+        assertEquals(0, courses.size());
+        assertTrue(courses.isEmpty());
+    }
+    
+    @Test 
+    public void getLecturerCourses_Success(){
+        // arange
+        List<Course> mockedlecturerCourses = Arrays.asList(mockCourse);
+        when(mockCourseRepository.findByLecturer(mockLecturer)).thenReturn(mockedlecturerCourses);
+        
+        // act
+        List<Course> returnedCourses = courseService.getLecturerCourses(mockLecturer);
+
+        // asserts
+        assertEquals(1, returnedCourses.size());
+        assertEquals(mockedlecturerCourses, returnedCourses);
+    }
+
+    @Test
+    public void getLecturerCourses_Failed(){
+        // arange
+        when(mockCourseRepository.findByLecturer(mockLecturer)).thenReturn(Collections.emptyList());
+
+        // act
+        List<Course> returnedCourses = courseService.getLecturerCourses(mockLecturer);
+        
+        // assert
+        assertEquals(0, returnedCourses.size());
+        assertTrue(returnedCourses.isEmpty());
+    }
+
+    @Test
+    public void deleteCourseById_Success() {
+        // Act
+        courseService.deleteCourseById(COURSE_ID);
+
+        // Assert
+        // verify that the deleteById method on the repository was called exactly once with the correct ID.
+        verify(mockCourseRepository, times(1)).deleteById(COURSE_ID);
+    }
+
 }
