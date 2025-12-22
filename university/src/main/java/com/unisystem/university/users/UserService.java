@@ -2,6 +2,7 @@ package com.unisystem.university.users;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,13 +15,10 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class UserService implements UserDetailsService{
+    @Autowired
     private UserRepository userRepo;
+    @Autowired
     private PasswordEncoder passwordEncoder;
-    
-    public UserService(UserRepository _userRepo, PasswordEncoder passwordEncoder){
-        this.userRepo = _userRepo;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException{
