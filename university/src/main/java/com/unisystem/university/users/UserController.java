@@ -1,5 +1,6 @@
 package com.unisystem.university.users;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,11 +15,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-    private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    @Autowired
+    private UserService userService;
 
     // --- GET ALL (Filtered by Role) ---
 
