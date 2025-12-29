@@ -4,7 +4,9 @@ import com.unisystem.university.courses.DTOS.CourseCreationReq;
 import com.unisystem.university.courses.DTOS.CourseResponse;
 import com.unisystem.university.courses.DTOS.CourseUpdateReq;
 import com.unisystem.university.users.User;
-import com.unisystem.university.users.UserService; 
+import com.unisystem.university.users.UserService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,13 +19,11 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/courses")
 public class CourseController {
-    private final CourseService courseService;
-    private final UserService userService; 
-
-    public CourseController(CourseService courseService, UserService userService) {
-        this.courseService = courseService;
-        this.userService = userService;
-    }
+    @Autowired
+    private CourseService courseService;
+    
+    @Autowired
+    private UserService userService; 
 
     @GetMapping
     public ResponseEntity<List<CourseResponse>> getAllCourses() {

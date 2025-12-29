@@ -2,11 +2,13 @@ package com.unisystem.university.courses.DTOS;
 
 import java.time.LocalDate;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class CourseUpdateReq {
     private String name;
     private LocalDate startDate;
